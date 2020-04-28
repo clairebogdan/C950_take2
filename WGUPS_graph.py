@@ -3,8 +3,6 @@
 # and graphs the data using undirected edges. Each edge has a weight that represents the miles between each vertex
 import csv
 
-from chaining_hashtable import package_hashtable
-
 
 class Graph:
 
@@ -49,16 +47,18 @@ def get_graph(filename):
     graph_distances = Graph()
     for row in data:
         graph_distances.add_vertex(row[1])  # Vertex is associated with the street address
-    for i in range(3, len(row)):  # Starts at 3 because indices 0-2 are name, street, and zip, which are not needed
-        graph_distances.add_edge(row[1], data[i-3][1], float(row[i]))  # data[i-3][1] gets each connected street vertex
+    for row in data:
+        for i in range(3, len(row)):  # Starts at 3 because indices 0-2 are name, street, and zip, which are not needed
+            graph_distances.add_edge(row[1], data[i-3][1], float(row[i]))  # data[i-3][1] gets each connected street vertex
     return graph_distances
 
 
-#graph = get_graph("WGUPS_distances.csv")
-#graph.put_packages_in_delivery_dict(package_hashtable)
+# Initialize the graph for further use
+graph = get_graph("WGUPS_distances.csv")
 
 
-# Prints the locations (vertices) and associated packages
+# Prints useful information
 # print(graph.delivery_dict)
+print(graph.edge_weights['4001 South 700 East', '4001 South 700 East'])
 
 
