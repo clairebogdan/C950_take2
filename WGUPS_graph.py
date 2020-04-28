@@ -1,3 +1,4 @@
+# Claire Bogdan ID:#001210883
 # This file takes data from the distance csv file, creates vertices based on the name of the location,
 # and graphs the data using undirected edges. Each edge has a weight that represents the miles between each vertex
 import csv
@@ -53,8 +54,8 @@ def get_graph(filename):
     return graph_distances
 
 
-graph = get_graph("WGUPS_distances.csv")
-graph.put_packages_in_delivery_dict(package_hashtable)
+#graph = get_graph("WGUPS_distances.csv")
+#graph.put_packages_in_delivery_dict(package_hashtable)
 
 
 # Prints the locations (vertices) and associated packages

@@ -1,5 +1,5 @@
+# Claire Bogdan ID:#001210883
 # The Chaining Hash Table improves the speed at which packages can be accessed
-
 import csv
 
 
