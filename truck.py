@@ -1,13 +1,11 @@
 # Claire Bogdan ID:#001210883
-# The Truck Class assists in creating truck objects which will be loaded with packages
-import math
-
-from WGUPS_graph import Graph, get_graph, graph
+from WGUPS_graph import graph
 from algorithm import greedy_path_algorithm
 from chaining_hashtable import package_hashtable
-from datetime import time, timedelta, datetime
+from datetime import timedelta, datetime
 
 
+# The Truck Class assists in creating truck objects which will be loaded with packages
 class Truck:
 
     # Constructor to initialize packages on the truck, route, delivery start time, and mileage
@@ -230,7 +228,6 @@ def deliver_packages():
             if truck3.route[i + 1] == package[1]:
                 package[8] = updated_delivery_status
     truck3.finish_time = truck3.current_time
-    print("Truck 3 finished at", truck3.finish_time)
     print("Truck 3 Delivery:", *truck3.truck_packages, sep="\n") # prints using new lines instead of a giant line
 
 

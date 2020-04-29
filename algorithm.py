@@ -1,11 +1,11 @@
 # Claire Bogdan ID:#001210883
+from WGUPS_graph import graph
+
+
 # Greedy algorithm is used to determine the best path for each truck
 # Every truck will always start at the hub
 # As packages are loaded to the truck (with their attached addresses), the algorithm will sort the route and determine
 # the best path (the "next" location will be the one with the shorter distance from point a to point b.)
-from WGUPS_graph import graph
-
-
 # O(N^2)
 def greedy_path_algorithm(route):
     start = "4001 South 700 East"  # all trucks start their deliveries at the hub
@@ -30,5 +30,3 @@ def greedy_path_algorithm(route):
 
     # This is the better route for the truck to take
     return greedy_path
-
-

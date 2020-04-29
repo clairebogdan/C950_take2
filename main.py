@@ -1,33 +1,21 @@
 # Claire Bogdan ID:#001210883
 # Western Governors University
 # Data Structures and Algorithms II (C950)
-
-
-# Displays the menu again or allows the user to exit
 from algorithm import greedy_path_algorithm
-from chaining_hashtable import auto_increment_package_id, print_search_result
+from chaining_hashtable import print_search_result
 from truck import load_trucks_and_get_best_route, truck2, see_package_status, total_miles_traveled_by_all_trucks, \
-    deliver_packages
-
-
-def menu():
-    response = input("Main Menu? \n"
-                     "Enter anything to go to Main Menu \n"
-                     "ENTER 0 TO EXIT \n")
-    if response != "0":
-        ui()
-    else:
-        SystemExit
+    deliver_packages, truck3
 
 
 # User interface where the user can view information about the program. It follows a strict order in order to keep
 # the truck data organized
 def ui():
+
     # Main Menu Options
     main_menu = input("What would you like to do? \n"
-                   "[1] Load Trucks (Insert Packages) \n"
-                   "[2] Lookup Individual Package \n"
-                   "ENTER 0 TO EXIT \n")
+                      "[1] Load Trucks (Insert Packages) \n"
+                      "[2] Lookup Individual Package \n"
+                      "ENTER 0 TO EXIT \n")
 
     # [0] Exit the program
     if main_menu == "0":
@@ -41,8 +29,8 @@ def ui():
         print("Packages were inserted into hash table and packages were loaded onto trucks.")
         load_trucks_and_get_best_route()
         status_1 = input("\nEnter 1 to go package status #1 \n"
-                           "[1] See package status of all packages between 8:35 a.m. and 9:25 a.m \n"
-                           "ENTER 0 TO EXIT \n")
+                         "[1] See package status of all packages between 8:35 a.m. and 9:25 a.m \n"
+                         "ENTER 0 TO EXIT \n")
 
         # [0] Exit the program
         if status_1 == "0":
@@ -66,19 +54,18 @@ def ui():
             # [1] YES, fix the package
             if fix_pkg == "1":
                 print("Fixing package #9 address to 410 S State St., Salt Lake City, UT 84111 ... ")
-                print("doesnt work yet")
-                '''
-                print(truck2.route)
+                print("Current Truck 2 route:", truck2.route)
+
                 for package in truck2.truck_packages:
 
                     if package[7] == "W":
                         truck2.remove(package)
-                updated_package_9 = ['9', '410 S State St', 'Salt Lake City', 'UT', '84111', '17:00', '2', 'W']
+                updated_package_9 = ['9', '410 S State St', 'Salt Lake City', 'UT', '84111', '17:00', '2', 'W', 'OUT_FOR_DELIVERY']
                 truck2.insert(updated_package_9)
-                greedy_path_algorithm(truck2.route)
+                truck2.route = greedy_path_algorithm(truck2.route)
+                truck2.route.append("4001 South 700 East")
                 print("You fixed the address!")
-                print(truck2.route)
-                '''
+                print("New Truck 2 route:", truck2.route)
 
                 # Next: See package status 2
                 status_2 = input("\nNow, you can view package status #2\n"
@@ -110,8 +97,8 @@ def ui():
                         see_package_status(13, 12, 0)
 
                         # Last, the user can view the final results
-                        final = input("\nSee results of the truck delivery?\n"
-                                      "[1] YES, see total mileage of all trucks and all package status\n"
+                        final = input("\nSEE FINAL RESULTS OF THE TRUCK DELIVERY SIMULATION?\n"
+                                      "[1] YES, see all package delivery details, total mileage, and time finished\n"
                                       "ENTER 0 TO EXIT\n")
 
                         # [0] Exit the program
@@ -122,8 +109,9 @@ def ui():
                         # [1] See final results and exit the program!
                         if final == "1":
 
-                            total_miles_traveled_by_all_trucks()
                             deliver_packages()
+                            total_miles_traveled_by_all_trucks()
+                            print("All trucks are back at hub by", truck3.finish_time.time())
                             SystemExit
 
     # Lookup Individual Package
@@ -144,5 +132,6 @@ def ui():
         ui()
 
 
+# Program starts here
 print("Welcome to WGUPS! The time is 7:59AM")
 ui()

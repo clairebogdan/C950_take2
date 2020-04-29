@@ -1,11 +1,12 @@
 # Claire Bogdan ID:#001210883
-# The Chaining Hash Table improves the speed at which packages can be accessed
 import csv
 
 
+# The Chaining Hash Table improves the speed at which packages can be accessed
 class ChainingHashTable:
 
     # Constructor with 10 buckets, initialized to empty
+    # O(N)
     def __init__(self, initial_capacity=10):
         self.table = []
         for i in range(initial_capacity):
@@ -13,14 +14,15 @@ class ChainingHashTable:
 
     # Insert a new package into the hashtable, using the first index of the data extracted from the csv as the key,
     # since the first index is the package ID
+    # O(1)
     def insert(self, key, package):
         package[0] = int(package[0])
         bucket = key % len(self.table)
         self.table[bucket].append(package)
         if package[7] != "9:05":
-            package.append("AT_HUB")
+            package.append("AT_HUB")  # Adds delivery status for all packages that are not late to the hub
         if package[7] == "9:05":
-            package.append("DELAYED_ON_FLIGHT")
+            package.append("DELAYED_ON_FLIGHT")  # Packages that are late to the hub get this delivery status
 
     # Search for a package with matching input key (matching package ID)
     # O(N)
@@ -50,7 +52,6 @@ class ChainingHashTable:
                 bucket_list.remove(key)
 
 
-
 # Extracts data from the csv file that contains packages
 # Enters the package data into the hashtable
 # O(N)
@@ -68,7 +69,7 @@ def get_packages(filename):
 package_hashtable = get_packages("WGUPS_packages.csv")
 
 
-# Key for package indices:
+# Key for package indices (useful for load_truck_and_get_best_route function in truck.py):
 # package[0] = package_id
 # package[1] = street
 # package[2] = city
@@ -80,20 +81,8 @@ package_hashtable = get_packages("WGUPS_packages.csv")
 # package[8] = delivery_status (AT_HUB, OUT_FOR_DELIVERY, or DELIVERED)
 
 
-# See package data in the hashtable
-# print(package_hashtable.table)
-
-def auto_increment_package_id():
-    package_ids = []
-    with open("WGUPS_packages.csv") as csv_file:
-        csv_reader = csv.reader(csv_file)
-        next(csv_reader, None)  # skips the header
-        for row in csv_reader:
-            package_ids.append(int(row[0]))
-    return max(package_ids) + 1
-
-
+# Prints the result to the console when searching to a package in the hash table
+# Used in main.py
 def print_search_result(id):
     result = package_hashtable.search(id)
     print(result)
-

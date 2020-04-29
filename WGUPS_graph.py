@@ -1,9 +1,9 @@
 # Claire Bogdan ID:#001210883
-# This file takes data from the distance csv file, creates vertices based on the name of the location,
-# and graphs the data using undirected edges. Each edge has a weight that represents the miles between each vertex
 import csv
 
 
+# This file takes data from the distance csv file, creates vertices based on the name of the location,
+# and graphs the data using undirected edges. Each edge has a weight that represents the miles between each vertex
 class Graph:
 
     # Constructor creating empty lists for the locations and edge weights
@@ -41,7 +41,7 @@ def get_all_distance_csv_data(filename):
 
 
 # This function creates the graph
-# O(N)
+# O(N^2)
 def get_graph(filename):
     data = get_all_distance_csv_data(filename)
     graph_distances = Graph()
@@ -55,10 +55,3 @@ def get_graph(filename):
 
 # Initialize the graph for further use
 graph = get_graph("WGUPS_distances.csv")
-
-
-# Prints useful information
-# print(graph.delivery_dict)
-print(graph.edge_weights['4001 South 700 East', '4001 South 700 East'])
-
-
