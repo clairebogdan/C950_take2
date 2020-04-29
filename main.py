@@ -8,7 +8,7 @@ from truck import load_trucks_and_get_best_route, truck2, see_package_status, to
 
 
 # User interface where the user can view information about the program. It follows a strict order in order to keep
-# the truck data organized
+# the truck data organized.
 def ui():
 
     # Main Menu Options
@@ -54,18 +54,17 @@ def ui():
             # [1] YES, fix the package
             if fix_pkg == "1":
                 print("Fixing package #9 address to 410 S State St., Salt Lake City, UT 84111 ... ")
-                print("Current Truck 2 route:", truck2.route)
-
                 for package in truck2.truck_packages:
-
                     if package[7] == "W":
-                        truck2.remove(package)
+                        truck2.remove(package)  # temporarily "removes" the package in order to edit the data
+
+                # Updates the package info and reroutes the truck
                 updated_package_9 = ['9', '410 S State St', 'Salt Lake City', 'UT', '84111', '17:00', '2', 'W', 'OUT_FOR_DELIVERY']
-                truck2.insert(updated_package_9)
-                truck2.route = greedy_path_algorithm(truck2.route)
-                truck2.route.append("4001 South 700 East")
+                truck2.insert(updated_package_9)  # re-inserts the package onto the truck with updated information
+                truck2.route = greedy_path_algorithm(truck2.route)  # updates route with the best route
+                truck2.route.append("4001 South 700 East")  # bring the truck back to the hub
+
                 print("You fixed the address!")
-                print("New Truck 2 route:", truck2.route)
 
                 # Next: See package status 2
                 status_2 = input("\nNow, you can view package status #2\n"
