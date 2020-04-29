@@ -17,9 +17,13 @@ class ChainingHashTable:
         package[0] = int(package[0])
         bucket = key % len(self.table)
         self.table[bucket].append(package)
-        package.append("AT_HUB")
+        if package[7] != "9:05":
+            package.append("AT_HUB")
+        if package[7] == "9:05":
+            package.append("DELAYED_ON_FLIGHT")
 
     # Search for a package with matching input key (matching package ID)
+    # O(N)
     def search(self, key):
 
         # Get the bucket list where this key/ID should be found
@@ -33,6 +37,7 @@ class ChainingHashTable:
         return None  # Package was not found
 
     # Remove a package with matching input key (matching package ID)
+    # O(N)
     def remove(self, key):
 
         # Get the bucket list where this key/ID should be found
@@ -91,3 +96,4 @@ def auto_increment_package_id():
 def print_search_result(id):
     result = package_hashtable.search(id)
     print(result)
+

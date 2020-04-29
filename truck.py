@@ -32,9 +32,8 @@ class Truck:
     # Leave the hub and start the delivery route
     def start_delivery(self, time):
         self.start_time = time
-        for package in self.truck_packages:
-            package[8] = "OUT_FOR_DELIVERY"
 
+    # This is updated as deliveries are made
     def current_time(self, time):
         self.current_time = time
         return time
@@ -135,17 +134,14 @@ def load_trucks_and_get_best_route():
     truck2.route.append("4001 South 700 East")
     truck3.route.append("4001 South 700 East")
 
-    # Uncomment print statements to see the results of this function
-    # print("Amount on Truck 1: ", len(truck1.truck_packages))
-    # print("Truck 1 Packages: ", truck1.truck_packages)
-    # print("Truck 1 route: ", truck1.route, "\n")
-    # print("Amount on Truck 2: ", len(truck2.truck_packages))
-    # print("Truck 2 Packages: ", truck2.truck_packages)
-    # print("Truck 2 route: ", truck2.route, "\n")
-    # print("Amount on Truck 3: ", len(truck3.truck_packages))
-    # print("Truck 3 Packages: ", truck3.truck_packages)
-    # print("Truck 3 route: ", truck3.route, "\n")
-    print("Packages loaded on trucks! Best routes found!")
+    # Results
+    print("All truck & package data after loading: ")
+    print("Truck 1 has", len(truck1.truck_packages), "packages")
+    print("Truck 1 packages:", *truck1.truck_packages, sep="\n")
+    print("Truck 2 has", len(truck2.truck_packages), "packages")
+    print("Truck 2 packages:", *truck2.truck_packages, sep="\n")
+    print("Truck 3 has", len(truck3.truck_packages), "packages")
+    print("Truck 3 packages:", *truck3.truck_packages, sep="\n")
 
 
 # Gets the miles traveled for an individual truck
@@ -169,6 +165,8 @@ def total_miles_traveled_by_all_trucks():
           "+ Truck 3: ", round(t3_miles, 2), " TOTAL =", round(total, 2), "miles")
 
 
+# Assists with stating the time of the package delivery
+# O(1)
 def add_seconds(time, sec):
     date = datetime(100, 1, 1, time.hour, time.minute, time.second)
     date = date + timedelta(seconds = sec)
@@ -236,10 +234,79 @@ def deliver_packages():
     print("Truck 3 Delivery:", *truck3.truck_packages, sep="\n") # prints using new lines instead of a giant line
 
 
-# Start truck delivery simulation
-load_trucks_and_get_best_route()
-total_miles_traveled_by_all_trucks()
-deliver_packages()
+# Changes the delivery status to "out for delivery"
+# O(N)
+def out_for_delivery(truck_packages):
+    for package in truck_packages:
+        package[8] = "OUT_FOR_DELIVERY"
+
+
+# Allows the user in main.py to view packages' delivery status at certain times
+# O(N^2)
+def see_package_status(hour, min, sec):
+    miles_between = graph.edge_weights
+    stop_time = datetime(2020, 1, 1, hour, min, sec)
+
+    # Truck 1 Delivery
+    truck1_start = datetime(2020, 1, 1, 8, 0, 0)
+    truck1.start_time = truck1_start
+    truck1.current_time = truck1_start
+    out_for_delivery(truck1.truck_packages)
+    for i in range(0, len(truck1.route) - 1):
+        distance = miles_between[truck1.route[i], truck1.route[i + 1]]
+        speed = truck1.speed
+        minutes_decimal = distance / speed
+        seconds_to_add = round(minutes_decimal * 60, 2)
+        delivered_time = add_seconds(truck1.current_time, seconds_to_add)
+        if delivered_time < stop_time.time():
+            truck1.current_time = datetime(2020, 1, 1, delivered_time.hour, delivered_time.minute, delivered_time.second)
+            updated_delivery_status = "DELIVERED AT", str(delivered_time)
+            for package in truck1.truck_packages:
+                if truck1.route[i + 1] == package[1]:
+                    package[8] = updated_delivery_status
+    truck1.finish_time = truck1.current_time
+    print("Truck 1 Delivery:", *truck1.truck_packages, sep="\n")  # prints using new lines instead of a giant line
+
+    # Truck 2 Delivery
+    truck2_start = datetime(2020, 1, 1, 9, 5, 0)
+    truck2.start_time = truck2_start
+    truck2.current_time = truck2_start
+    out_for_delivery(truck2.truck_packages)
+    for i in range(0, len(truck2.route) - 1):
+        distance = miles_between[truck2.route[i], truck2.route[i + 1]]
+        speed = truck2.speed
+        minutes_decimal = distance / speed
+        seconds_to_add = round(minutes_decimal * 60, 2)
+        delivered_time = add_seconds(truck2.current_time, seconds_to_add)
+        if delivered_time < stop_time.time():
+            truck2.current_time = datetime(2020, 1, 1, delivered_time.hour, delivered_time.minute, delivered_time.second)
+            updated_delivery_status = "DELIVERED AT", str(delivered_time)
+            for package in truck2.truck_packages:
+                if truck2.route[i + 1] == package[1]:
+                    package[8] = updated_delivery_status
+    truck2.finish_time = truck2.current_time
+    print("Truck 2 Delivery:", *truck2.truck_packages, sep="\n")  # prints using new lines instead of a giant line
+
+    # Truck 3 Delivery
+    truck3_start = truck1.finish_time
+    truck3.start_time = truck3_start
+    truck3.current_time = truck3_start
+    out_for_delivery(truck3.truck_packages)
+    for i in range(0, len(truck3.route) - 1):
+        distance = miles_between[truck3.route[i], truck3.route[i + 1]]
+        speed = truck3.speed
+        minutes_decimal = distance / speed
+        seconds_to_add = round(minutes_decimal * 60, 2)
+        delivered_time = add_seconds(truck3.current_time, seconds_to_add)
+        if delivered_time < stop_time.time():
+            truck3.current_time = datetime(2020, 1, 1, delivered_time.hour, delivered_time.minute, delivered_time.second)
+            updated_delivery_status = "DELIVERED AT", str(delivered_time)
+            for package in truck3.truck_packages:
+                if truck3.route[i + 1] == package[1]:
+                    package[8] = updated_delivery_status
+    truck3.finish_time = truck3.current_time
+    print("Truck 3 Delivery:", *truck3.truck_packages, sep="\n")  # prints using new lines instead of a giant line
+
 
 
 

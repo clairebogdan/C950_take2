@@ -23,10 +23,8 @@ def menu():
 def ui():
     # Main Menu Options
     choice = input("What would you like to do? \n"
-                   "[1] Package Status\n"
+                   "[1] Load Trucks\n"
                    "[2] Lookup Package \n"
-                   "[3] Insert New Package \n"
-                   "[4] See Best Route and Mileage \n"
                    "ENTER 0 TO EXIT \n")
 
     try:  # tries to convert the user input to an integer
